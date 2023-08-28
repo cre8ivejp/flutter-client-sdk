@@ -4,10 +4,6 @@ on:
   push:
     tags:
       - v*
-    branches:
-      - main
-      # For testing this github Action's setup
-      - initial-implementation
 
 jobs:
   publish:

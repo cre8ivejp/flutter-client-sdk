@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      # For testing this github Action's setup
-      - initial-implementation
   workflow_dispatch:
 
 concurrency:
@@ -22,8 +20,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          # instead of "channel: stable", you could be more precise by specifying the exact version of Flutter you're using:
-          # flutter-version: '<FLUTTER_VERSION>'
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
@@ -42,7 +38,7 @@ jobs:
         run: flutter test test
 
   # job responsible for running Flutter tests on iOS devices
-  ios:
+  ios-integration-test:
     needs: unit-tests
     # Creates a build matrix for your jobs. You can define different variations of an environment to run each job
     strategy:
@@ -70,8 +66,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          # instead of "channel: stable", you could be more precise by specifying the exact version of Flutter you're using:
-          # flutter-version: '<FLUTTER_VERSION>'
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
@@ -86,7 +80,7 @@ jobs:
           flutter test --dart-define=API_KEY=${{ secrets.BKT_API_KEY }} --dart-define=API_ENDPOINT=${{ secrets.BKT_API_ENDPOINT }} integration_test
 
   # job responsible for running Flutter tests on Android devices
-  android:
+  android-integration-test:
     needs: unit-tests
     runs-on: macos-13
     timeout-minutes: 45
@@ -102,8 +96,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          # instead of "channel: stable", you could be more precise by specifying the exact version of Flutter you're using:
-          # flutter-version: '<FLUTTER_VERSION>'
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
@@ -137,8 +129,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          # instead of "channel: stable", you could be more precise by specifying the exact version of Flutter you're using:
-          # flutter-version: '<FLUTTER_VERSION>'
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
@@ -161,8 +151,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          # instead of "channel: stable", you could be more precise by specifying the exact version of Flutter you're using:
-          # flutter-version: '<FLUTTER_VERSION>'
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
