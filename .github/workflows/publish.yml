@@ -39,7 +39,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           # DO NOT CHANGE the check-name. This name is based on the workflow name defined in the build.yaml
-          check-name: "Run Android integration tests"
+          check-name: "android-integration-test"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 10
 
@@ -49,7 +49,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           # DO NOT CHANGE the check-name. This name is based on the workflow name defined in the build.yaml
-          check-name: "Run iOS integration tests"
+          check-name: "ios-integration-test"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 10
 

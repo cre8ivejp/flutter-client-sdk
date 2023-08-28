@@ -43,16 +43,14 @@ jobs:
   # job responsible for running Flutter tests on iOS devices
   ios-integration-test:
     needs: unit-tests
-    # Creates a build matrix for your jobs. You can define different variations of an environment to run each job
+    name: ios-integration-test
+    runs-on: macos-13
+    timeout-minutes: 30
     strategy:
       matrix:
         device:
-          # The available simulators are listed by the "xcrun xctrace list devices" command
           - "iPhone 14 Simulator (16.2)" # the name of the simulator could be different depending on the macos version you are using
-      # if one of the jobs in the matrix expansion fails, the rest of the jobs will be cancelled
       fail-fast: true
-    runs-on: macos-13
-    timeout-minutes: 30
     steps:
       - name: "List all simulators"
         run: "xcrun xctrace list devices"
@@ -84,6 +82,7 @@ jobs:
   # job responsible for running Flutter tests on Android devices
   android-integration-test:
     needs: unit-tests
+    name: android-integration-test
     runs-on: macos-13
     timeout-minutes: 30
     strategy:
