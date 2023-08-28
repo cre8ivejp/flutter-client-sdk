@@ -5,6 +5,9 @@ on:
     tags:
       - v*
 
+env:
+  FLUTTER_VERSION: 3.13.1
+
 jobs:
   publish:
     permissions:
@@ -18,14 +21,35 @@ jobs:
         with:
           sdk: stable
 
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa # v.2.10.0
         with:
-          flutter-version: "3.3.7"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
 
       - name: Install dependencies
         run: flutter pub get
+
+      # This is a workaround to ensure that we don't publish to Cocoapods before the Build and Integration tests workflow is finished.
+      - name: Wait for Android Integration tests
+        if: ${{ ! github.event.inputs || github.event.inputs.skip_release_note == 'false' }}
+        uses: lewagon/wait-on-check-action@e106e5c43e8ca1edea6383a39a01c5ca495fd812 # v1.3.1
+        with:
+          ref: ${{ github.ref }}
+          # DO NOT CHANGE the check-name. This name is based on the workflow name defined in the build.yaml
+          check-name: "Run Android integration tests"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+
+      - name: Wait for iOS Integration tests
+        if: ${{ ! github.event.inputs || github.event.inputs.skip_release_note == 'false' }}
+        uses: lewagon/wait-on-check-action@e106e5c43e8ca1edea6383a39a01c5ca495fd812 # v1.3.1
+        with:
+          ref: ${{ github.ref }}
+          # DO NOT CHANGE the check-name. This name is based on the workflow name defined in the build.yaml
+          check-name: "Run iOS integration tests"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
 
       - name: Publish
         run: flutter pub publish --dry-run

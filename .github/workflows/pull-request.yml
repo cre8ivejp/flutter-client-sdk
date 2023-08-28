@@ -10,19 +10,21 @@ concurrency:
   group: pr-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  FLUTTER_VERSION: 3.13.1
+
 jobs:
-  unit-tests:
-    runs-on: macos-13 # or macos-latest if you prefer, but be aware that the available simulators could be different if you run a different version
+  unit-test:
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
 
       - name: Setup Flutter SDK
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa # v.2.10.0
         with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
           architecture: x64
 
       - name: Install Flutter dependencies
@@ -38,42 +40,36 @@ jobs:
         run: flutter test test
 
   build-example-app-android:
+    needs: unit-test
     runs-on: macos-13
-    timeout-minutes: 45
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
       - name: Setup Flutter SDK
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa # v.2.10.0
         with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
           architecture: x64
-
-      - name: Install Flutter dependencies
-        run: flutter pub get
 
       - name: Build the example app
         run: |
           make build-android
 
   build-example-app-ios:
+    needs: unit-test
     runs-on: macos-13
-    timeout-minutes: 45
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
       - name: Setup Flutter SDK
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa # v.2.10.0
         with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
           architecture: x64
-
-      - name: Install Flutter dependencies
-        run: flutter pub get
 
       - name: Build the example app
         run: |
