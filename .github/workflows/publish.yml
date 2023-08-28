@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - v*
+    branches:
+      - initial-implementation
 
 env:
   FLUTTER_VERSION: 3.13.1
