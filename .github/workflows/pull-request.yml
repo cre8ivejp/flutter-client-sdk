@@ -30,8 +30,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
-          cache: true
-          architecture: x64
 
       - name: Install Flutter dependencies
         run: flutter pub get
@@ -39,7 +37,6 @@ jobs:
       - name: Flutter lint
         run: |
           flutter analyze
-          # lint check the example project
           cd example && flutter analyze
 
       - name: Run unit tests
@@ -63,8 +60,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
-          cache: true
-          architecture: x64
 
       - name: Build the example app
         run: |
@@ -88,8 +83,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
-          cache: true
-          architecture: x64
 
       - name: Build the example app
         run: |

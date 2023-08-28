@@ -24,11 +24,6 @@ jobs:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.os }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
 
-      # - name: Install Dart
-      #   uses: dart-lang/setup-dart@v1
-      #   with:
-      #     sdk: stable
-
       - name: Setup Flutter SDK
         uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa # v.2.10.0
         with:
