@@ -13,8 +13,10 @@ public class BucketeerFlutterClientSdkPlugin: NSObject, FlutterPlugin {
         let channel = FlutterMethodChannel(name: METHOD_CHANNEL_NAME, binaryMessenger: registrar.messenger())
         let instance = BucketeerFlutterClientSdkPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
-        let eventChannel = FlutterEventChannel(name: EVALUATION_UPDATE_EVENT_CHANNEL_NAME,
-                                               binaryMessenger: registrar.messenger())
+        let eventChannel = FlutterEventChannel(
+            name: EVALUATION_UPDATE_EVENT_CHANNEL_NAME,
+            binaryMessenger: registrar.messenger()
+        )
         eventChannel.setStreamHandler(instance.evaluationListener)
     }
 
