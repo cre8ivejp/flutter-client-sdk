@@ -15,14 +15,14 @@ env:
 
 jobs:
   unit-test:
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - name: Cache Flutter dependencies
         uses: actions/cache@v2
         with:
-          path: /Users/runner/hostedtoolcache/flutter
+          path: /opt/hostedtoolcache/flutter # For Ubuntu machine
           key: ${{ runner.os }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
 
       - name: Setup Flutter SDK
@@ -43,7 +43,7 @@ jobs:
         run: flutter test test
 
   build-example-app-android:
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
@@ -51,7 +51,7 @@ jobs:
       - name: Cache Flutter dependencies
         uses: actions/cache@v2
         with:
-          path: /Users/runner/hostedtoolcache/flutter
+          path: /opt/hostedtoolcache/flutter # For Ubuntu machine
           key: ${{ runner.os }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
 
       - name: Setup Flutter SDK
@@ -65,7 +65,7 @@ jobs:
           make build-android
 
   build-example-app-ios:
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
@@ -73,7 +73,7 @@ jobs:
       - name: Cache Flutter dependencies
         uses: actions/cache@v2
         with:
-          path: /Users/runner/hostedtoolcache/flutter
+          path: /opt/hostedtoolcache/flutter # For Ubuntu machine
           key: ${{ runner.os }}-flutter-install-cache-${{ env.FLUTTER_VERSION }}
 
       - name: Setup Flutter SDK
